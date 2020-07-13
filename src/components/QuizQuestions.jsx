@@ -40,6 +40,8 @@ export default function QuizQuestions() {
   let quizesFromDB = []
   const [ loading, setLoading ] = useState(true)
   const [ DataFromDB, setDataFromDB ] = useState([])
+  const [ currentQuestion, setCurrentQuestion ] = useState(0)
+
   useEffect(() => {
 
     let Link = window.location.href
@@ -66,28 +68,30 @@ export default function QuizQuestions() {
 
 
   return (
+    // current question is a state variable 
+    //data from DB is the array that contains the questions
+    //
     <Container>
-      {DataFromDB.map((element) => {
-        console.log(element)
-        return (
-          <div>
-
-
-            <h1>Question title: {element.questionTitle}</h1>
-            <h4>Question Answer: {element.correctAnswer}</h4>
-            <h4>First Option: {element.firstOption}</h4>
-            <h4>Second Option: {element.secondOption}</h4>
-            <h4>Third Option: {element.thirdOption}</h4>
-            <h4>Forth Option: {element.forthOption}</h4>
-
-
-
-          </div>
-          
-        )
-      }
+      <h1>Question number {currentQuestion + 1}</h1>
+      <h1>Question Title: {DataFromDB[ currentQuestion ].questionTitle}</h1>
+      {/* this is a button that changes the current question (in the state)
+      and if the user keeps clicking that button it forces the host to 
+      display something from the list that is not exist
+      like
+      datafromDB[10]
+      and when the array doesn't have 10 elements it will crash 
+      so I check if the current question is less than the Array length => 
+      increase the current question
+      
+      
+      */}
+      <Button onClick={() => {
+        if (currentQuestion < DataFromDB.length - 1){
+          setCurrentQuestion(currentQuestion + 1)
+        }
+      }}>Change number</Button>
         
-      )}
+     
     </Container>
   );
 }
