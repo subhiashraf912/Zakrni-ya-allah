@@ -143,6 +143,7 @@ export default function PrimarySearchAppBar() {
     history.push("/verfiy");
     handleMenuClose();
   };
+
   const menuId = "primary-search-account-menu";
   const renderMenuLogged = (
     <Menu
@@ -249,9 +250,17 @@ export default function PrimarySearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+
           <Link className={classes.typographyStyle} to="/cards">
+
+
             <Typography className={classes.typographyStyle}>
               simple cards{" "}
+            </Typography>
+          </Link>
+          <Link className={classes.typographyStyle} to="/quiz">
+            <Typography className={classes.typographyStyle}>
+              Add Quiz
             </Typography>
           </Link>
           <Link className={classes.typographyStyle} to="/AddCard">
