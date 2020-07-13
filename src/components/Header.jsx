@@ -250,9 +250,12 @@ export default function PrimarySearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <Link className={classes.typographyStyle} to="/latestcards">
+
+          <Link className={classes.typographyStyle} to="/cards">
+
+
             <Typography className={classes.typographyStyle}>
-              Latest Cards
+              simple cards{" "}
             </Typography>
           </Link>
           <Link className={classes.typographyStyle} to="/quiz">
