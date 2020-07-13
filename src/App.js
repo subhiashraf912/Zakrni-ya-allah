@@ -12,6 +12,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Verify from "./components/VerifyLogin";
 import Quiz from './components/Quiz'
 import Question from "./components/Question";
+import LatestCards from "./components/LatestQuizes";
+import QuizQuestions from "./components/QuizQuestions";
 
 
 function App() {
@@ -40,8 +42,14 @@ function App() {
         <Route path="/AddCard">
           <AddCard />
         </Route>
+        <Route path="/latestcards">
+          <LatestCards />
+        </Route>
         <Route path="/quiz">
           <Quiz />
+        </Route>
+        <Route path="/quizquestions">
+          <QuizQuestions />
         </Route>
         <Route path="/questions/:docId">
           <Question />

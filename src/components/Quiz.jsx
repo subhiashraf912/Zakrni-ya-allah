@@ -72,7 +72,8 @@ export default function Quiz() {
           if (!data.quizes) {
             let quizes = []
             quizes.push(docID)
-            userCollectrion.update({quizes:quizes}).then(()=> history.push(`/questions/${docID}`))
+            userCollectrion.update({ quizes: quizes }).then(() => history.push(`/questions/${docID}`))
+            
 
           } else {
             let quizes = data.quizes;
