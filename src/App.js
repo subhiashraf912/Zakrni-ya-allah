@@ -14,7 +14,7 @@ import Quiz from './components/Quiz'
 import Question from "./components/Question";
 import LatestCards from "./components/LatestQuizes";
 import QuizQuestions from "./components/QuizQuestions";
-
+import Answers from './components/answers'
 
 function App() {
   return (
@@ -28,6 +28,9 @@ function App() {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/answers">
+          <Answers />
         </Route>
         <Route path="/account">
           <Account />

@@ -11,11 +11,14 @@ import * as firebase from 'firebase';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import {useHistory} from 'react-router-dom'
-const useStyles = makeStyles({
+import { Paper } from '@material-ui/core';
+const useStyles = makeStyles((theme)=>({
   MainContainer: {
-    margin: '20px',
-    display: 'flex',
-    flexDirection:'row'
+    flexGrow: 1,
+    // width: '2900px',
+    maxWidth: 1300,
+    marginTop:'10px'
+
   },
   root: {
     maxWidth: 345,
@@ -24,7 +27,12 @@ const useStyles = makeStyles({
   media: {
     height: 140,
   },
-});
+  paper: {
+    // padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}))
 
 export default function LatestQuizes() {
   let history = useHistory();
@@ -66,37 +74,44 @@ export default function LatestQuizes() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.MainContainer}>
-      <Grid item xs={12} sm={12}>
-
+      <Grid container spacing={5} >
     {
       quizes.length > 0 ? (
-          quizes.map(post => (
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={require("../assets/card.jpg")}
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {post.quiztitle}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      {post.quizDescription}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
+            quizes.map(post => (
+              <Grid item xs={4}>
+                <Paper className={classes.paper}>
 
-                <Button size="small" color="primary" onClick={() => {
-                  history.push(`/quizquestions/${post.key}`)
-                  }}>
-                    Go to Qestions
+
+                  <Card>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={require("../assets/card.jpg")}
+                        title="Contemplative Reptile"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {post.quiztitle}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          {post.quizDescription}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+
+                      <Button size="small" color="primary" onClick={() => {
+                        history.push(`/quizquestions/${post.key}`)
+                      }}>
+                        Go to Qestions
         </Button>
-                </CardActions>
-              </Card>
-          
+                    </CardActions>
+                  </Card>
+
+
+                </Paper>
+             
+          </Grid>
         ))
       ) : (
           <h1>No posts yet</h1>

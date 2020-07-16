@@ -237,22 +237,22 @@ export default function PrimarySearchAppBar() {
           </a>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              {/* <SearchIcon /> */}
             </div>
           </div>
           <div direction="row">
-            <InputBase
+            {/* <InputBase
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
-            />
+            /> */}
           </div>
           <Link className={classes.typographyStyle} to="/latestcards">
             <Typography className={classes.typographyStyle}>
-              Latest Cards
+              Latest Quizzes
             </Typography>
           </Link>
           <Link className={classes.typographyStyle} to="/quiz">
