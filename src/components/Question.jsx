@@ -15,16 +15,13 @@ import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import { useHistory, useLocation } from "react-router-dom";
 
-
-
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -50,83 +47,69 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Question() {
-
-  let link = window.location.href
-  let linkParts = link.split('questions/')
-  let QuizParam = linkParts[1]  
+  let link = window.location.href;
+  let linkParts = link.split("questions/");
+  let QuizParam = linkParts[1];
 
   const history = useHistory();
   const classes = useStyles();
-    const [question, setQuestion] = useState("");
-    const [firstOption, setFirstOption] = useState("");
-    const [secondOption, setSecondOption] = useState("");
-    const [thirdOption, setThirdOption] = useState("");
-    const [forthOption, setForthOption] = useState("");
-    const [correctAnswer, setCorrectAnswer] = useState("");
-    const [numqestion, setNumquestion] = useState("");
-  const [ questionTitle, setQuestionTitle] = useState("");
-    const [qs, setQs] = useState("");
+  const [question, setQuestion] = useState("");
+  const [firstOption, setFirstOption] = useState("");
+  const [secondOption, setSecondOption] = useState("");
+  const [thirdOption, setThirdOption] = useState("");
+  const [forthOption, setForthOption] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [numqestion, setNumquestion] = useState("");
+  const [questionTitle, setQuestionTitle] = useState("");
+  const [qs, setQs] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-
   const addQuiz = () => {
-    setErrMsg('')
-   if (
-     question === "" ||
-     firstOption === "" ||
-     secondOption === "" ||
-     thirdOption === "" ||
-     forthOption === "" ||
-     correctAnswer === "" ||
-     questionTitle === ""
-   ) return setErrMsg(`Please fill in the fields!!!`)
-        const db = firebase.firestore();
-    let quizCollection = db.collection("quizes").doc(QuizParam)
+    setErrMsg("");
+    if (
+      question === "" ||
+      firstOption === "" ||
+      secondOption === "" ||
+      thirdOption === "" ||
+      forthOption === "" ||
+      correctAnswer === "" ||
+      questionTitle === ""
+    )
+      return setErrMsg(`Please fill in the fields!!!`);
+    const db = firebase.firestore();
+    let quizCollection = db.collection("quizes").doc(QuizParam);
     quizCollection.get().then((query) => {
-      let data = query.data()
-      if (!data.questions) { data.questions = [] }
+      let data = query.data();
+      if (!data.questions) {
+        data.questions = [];
+      }
 
-        let QuestionObject = {
-          question,
-          firstOption,
-          secondOption,
-          thirdOption,
-          forthOption,
-          correctAnswer,
-          questionTitle
-        }
-      data.questions.push(QuestionObject)
-      
-        quizCollection
-          .update({
-            questions: data.questions
-          })
-          .then((doc) => {
+      let QuestionObject = {
+        question,
+        firstOption,
+        secondOption,
+        thirdOption,
+        forthOption,
+        correctAnswer,
+        questionTitle,
+      };
+      data.questions.push(QuestionObject);
 
-            setCorrectAnswer("")
-            setFirstOption("")
-            setSecondOption("")
-            setThirdOption("")
-            setForthOption("")
-            setQuestion("")
-            setQuestionTitle("")
-
-
-          });
-
-        
-
-
-      
-      
-    })
-
-
-       
-
-
-
-}
+      quizCollection
+        .update({
+          questions: data.questions,
+        })
+        .then((doc) => {
+          setCorrectAnswer("");
+          setFirstOption("");
+          setSecondOption("");
+          setThirdOption("");
+          setForthOption("");
+          setQuestion("");
+          setQuestionTitle("");
+        });
+    });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -158,7 +141,7 @@ export default function Question() {
               setQuestionTitle(event.target.value);
             }}
           />
-          
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -188,7 +171,6 @@ export default function Question() {
               setFirstOption(event.target.value);
             }}
             value={firstOption}
-            
           />
           <TextField
             variant="outlined"
@@ -218,9 +200,7 @@ export default function Question() {
             onChange={(event) => {
               setThirdOption(event.target.value);
             }}
-
             value={thirdOption}
-          
           />
           <TextField
             variant="outlined"
@@ -260,7 +240,6 @@ export default function Question() {
             color="primary"
             className={classes.submit}
             onClick={addQuiz}
-
           >
             Add the qeuestion
           </Button>
@@ -271,13 +250,11 @@ export default function Question() {
             color="primary"
             className={classes.submit}
             onClick={() => {
-              history.push('/')
+              history.push("/");
             }}
-
           >
             Back to home
           </Button>
-          
         </form>
       </div>
     </Container>

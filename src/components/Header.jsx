@@ -186,22 +186,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -236,13 +220,13 @@ export default function PrimarySearchAppBar() {
             />
           </a>
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
+            {/* <div className={classes.searchIcon}>
               <SearchIcon />
-            </div>
+            </div> */}
           </div>
           <div direction="row">
             <InputBase
-              placeholder="Search…"
+              placeholder=""
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -250,24 +234,22 @@ export default function PrimarySearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-
-          <Link className={classes.typographyStyle} to="/cards">
-
-
-            <Typography className={classes.typographyStyle}>
-              simple cards{" "}
-            </Typography>
-          </Link>
           <Link className={classes.typographyStyle} to="/quiz">
             <Typography className={classes.typographyStyle}>
               Add Quiz
             </Typography>
           </Link>
+          <Link className={classes.typographyStyle} to="/latestQuizes">
+            <Typography className={classes.typographyStyle}>Quizzes</Typography>
+          </Link>
+          <Link className={classes.typographyStyle} to="/cards">
+            <Typography className={classes.typographyStyle}>Cards </Typography>
+          </Link>
           <Link className={classes.typographyStyle} to="/AddCard">
             <Typography className={classes.typographyStyle}>
               Add Card
             </Typography>
-          </Link>
+          </Link>{" "}
           <Link className={classes.typographyStyle} to="/#">
             <Typography className={classes.typographyStyle}>Help</Typography>
           </Link>

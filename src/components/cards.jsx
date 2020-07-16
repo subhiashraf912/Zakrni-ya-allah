@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RadioButtons() {
   const deleteData = (id) => {
+    console.log(id);
     if (id !== null && id !== undefined) {
       const db = firebase.firestore();
       db.collection("users")
@@ -72,7 +73,7 @@ export default function RadioButtons() {
   let cardsFromDB = [];
   const [loading, setLoading] = useState(true);
   const [cards, setcards] = useState([]);
-  useEffect(() => {
+  useEffect((id) => {
     var user = firebase.auth().currentUser;
     var uid;
 
@@ -89,6 +90,7 @@ export default function RadioButtons() {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           const data = doc.data();
+          data.id = doc.id;
           cardsFromDB.push(data);
           console.log(doc.id, " => ", doc.data());
           console.log(cardsFromDB);
@@ -121,6 +123,11 @@ export default function RadioButtons() {
               <Paper className={classes.paper}>
                 <Card style={getCardStyle(card.bgColor)}>
                   <CardContent>
+                    {/* <CardActions>
+                      <Button key={card.id} onClick={() => deleteData(card.id)}>
+                        <DeleteIcon></DeleteIcon>
+                      </Button>
+                    </CardActions> */}
                     <Typography gutterBottom variant="h4" component="h5">
                       {card.title}
                     </Typography>
@@ -133,11 +140,6 @@ export default function RadioButtons() {
                     >
                       {card.content}
                     </Typography>
-                    <CardActions>
-                      <Button key={card.id} onClick={deleteData(card.id)}>
-                        <DeleteIcon></DeleteIcon>
-                      </Button>
-                    </CardActions>
                   </CardContent>
                 </Card>
               </Paper>

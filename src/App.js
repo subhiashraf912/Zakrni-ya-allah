@@ -11,11 +11,10 @@ import "./firebase";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Verify from "./components/VerifyLogin";
-import Quiz from './components/Quiz'
+import Quiz from "./components/Quiz";
 import Question from "./components/Question";
-import LatestCards from "./components/LatestQuizes";
+import LatestQuizes from "./components/LatestQuizes";
 import QuizQuestions from "./components/QuizQuestions";
-
 
 function App() {
   return (
@@ -43,8 +42,8 @@ function App() {
         <Route path="/AddCard">
           <AddCard />
         </Route>
-        <Route path="/latestcards">
-          <LatestCards />
+        <Route path="/latestQuizes">
+          <LatestQuizes />
         </Route>
         <Route path="/quiz">
           <Quiz />

@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   banner: {
     width: "100%",
-    height: "80%",
+    height: "100%",
   },
   bannerContainer: {
     display: "flex",
@@ -17,11 +17,14 @@ const useStyles = makeStyles(() => ({
     position: "absolute",
     top: "20%",
     left: "20%",
+    variant: "overline",
   },
   bannerSecondaryText: {
     position: "absolute",
     top: "40%",
     left: "20%",
+    backgroundColor: "white",
+    alignSelf: "flex-start",
   },
   bannerButton: {
     position: "absolute",
@@ -39,13 +42,11 @@ const Banner = () => {
       <h1 className={classes.bannerSecondaryText}>
         It always seems impossible until it’s done
       </h1>
-      <Button variant="outlined" className={classes.bannerButton}>
-        Get Started!<ArrowRightAltIcon></ArrowRightAltIcon>
-      </Button>
+
       <img
         className={classes.banner}
         alt="clothes"
-        src={require("../assets/books.png")}
+        src={require("../assets/work.jpg")}
       ></img>
     </div>
   );
