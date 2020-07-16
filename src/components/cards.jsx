@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-import { pink } from "@material-ui/core/colors";
-import { orange } from "@material-ui/core/colors";
-import { blue } from "@material-ui/core/colors";
-import { yellow } from "@material-ui/core/colors";
-import Radio from "@material-ui/core/Radio";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import * as firebase from "firebase";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import { Paper } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import CardActions from "@material-ui/core/CardActions";
 
-const useStyles = makeStyles({
+import DeleteIcon from "@material-ui/icons/Delete";
+import { shadows } from "@material-ui/system";
+import Box from "@material-ui/core/Box";
+const useStyles = makeStyles((theme) => ({
   MainContainer: {
     margin: "20px",
     display: "flex",
-    flexDirection: "row",
+    flexGrow: 1,
+    maxWidth: 1300,
+    marginTop: "10px",
   },
   root: {
     maxWidth: 345,
@@ -41,13 +41,36 @@ const useStyles = makeStyles({
     margin: "0 2px",
     transform: "scale(0.8)",
   },
-});
+  paper: {
+    // padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: 250,
+    maxwidth: 150,
+  },
+}));
 
 export default function RadioButtons() {
+  const deleteData = (id) => {
+    if (id !== null && id !== undefined) {
+      const db = firebase.firestore();
+      db.collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("MyCards")
+        .doc(id)
+        .delete()
+        .then(function () {
+          console.log("Document successfully deleted!");
+        })
+        .catch(function (error) {
+          console.error("Error removing document: ", error);
+        });
+    }
+  };
   const classes = useStyles();
 
   let cardsFromDB = [];
-
+  const [loading, setLoading] = useState(true);
   const [cards, setcards] = useState([]);
   useEffect(() => {
     var user = firebase.auth().currentUser;
@@ -69,6 +92,7 @@ export default function RadioButtons() {
           cardsFromDB.push(data);
           console.log(doc.id, " => ", doc.data());
           console.log(cardsFromDB);
+          setLoading(false);
         });
         setcards(cardsFromDB);
       })
@@ -76,30 +100,48 @@ export default function RadioButtons() {
   }, []);
   const getCardStyle = (bgColor) => {
     return {
-      minWidth: 275,
-      height: 110,
-      width: 100,
+      // minWidth: 275,
+      height: 250,
+      maxwidth: 150,
       backgroundColor: bgColor,
       margin: "20px",
+      // display: "flex",
+      // flex: 1,
     };
   };
+  // if (loading) return <h1>Still Loading</h1>;
 
   return (
     <Container component="main" maxWidth="xs" className={classes.MainContainer}>
-      <Grid item xs={12} sm={12}>
+      <Grid container spacing={3}>
         {" "}
         {cards.length > 0 ? (
           cards.map((card) => (
-            <Card style={getCardStyle(card.bgColor)}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {card.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {card.content}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+                <Card style={getCardStyle(card.bgColor)}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h4" component="h5">
+                      {card.title}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="textSecondary"
+                      component="h3"
+                      align="center"
+                      display="block"
+                    >
+                      {card.content}
+                    </Typography>
+                    <CardActions>
+                      <Button key={card.id} onClick={deleteData(card.id)}>
+                        <DeleteIcon></DeleteIcon>
+                      </Button>
+                    </CardActions>
+                  </CardContent>
+                </Card>
+              </Paper>
+            </Grid>
           ))
         ) : (
           <h1>No cards yet</h1>
