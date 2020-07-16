@@ -260,6 +260,9 @@ export default function PrimarySearchAppBar() {
               Add Quiz
             </Typography>
           </Link>
+          <Link className={classes.typographyStyle} to="/cards">
+            <Typography className={classes.typographyStyle}>Cards </Typography>
+          </Link>
           <Link className={classes.typographyStyle} to="/AddCard">
             <Typography className={classes.typographyStyle}>
               Add Card
