@@ -9,7 +9,6 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -187,6 +186,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
+        
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -268,8 +268,10 @@ export default function PrimarySearchAppBar() {
           <Link className={classes.typographyStyle} to="/#">
             <Typography className={classes.typographyStyle}>Help</Typography>
           </Link>
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -292,7 +294,9 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </div>
+          
           <div className={classes.sectionMobile}>
+
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
