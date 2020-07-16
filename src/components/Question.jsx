@@ -15,6 +15,8 @@ import Container from "@material-ui/core/Container";
 import * as firebase from "firebase";
 import { useHistory, useLocation } from "react-router-dom";
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 function useQuery() {
@@ -47,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  Div: {
+    float: 'left', display: 'inline',
+
+
+  }
 }));
 
 export default function Question() {
@@ -68,6 +75,7 @@ export default function Question() {
     const [qs, setQs] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
+  const [ radioValue, setRadioValue ] = useState('')
 
   const addQuiz = () => {
     setErrMsg('')
@@ -77,7 +85,7 @@ export default function Question() {
      secondOption === "" ||
      thirdOption === "" ||
      forthOption === "" ||
-     correctAnswer === "" ||
+     radioValue === "" ||
      questionTitle === ""
    ) return setErrMsg(`Please fill in the fields!!!`)
         const db = firebase.firestore();
@@ -92,7 +100,7 @@ export default function Question() {
           secondOption,
           thirdOption,
           forthOption,
-          correctAnswer,
+          correctAnswer:radioValue,
           questionTitle
         }
       data.questions.push(QuestionObject)
@@ -110,7 +118,7 @@ export default function Question() {
             setForthOption("")
             setQuestion("")
             setQuestionTitle("")
-
+            setRadioValue("")
 
           });
 
@@ -127,7 +135,9 @@ export default function Question() {
 
 
 }
-
+  const handleChangeRadio = (elemt) => {
+    setRadioValue(elemt.target.value)
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -158,7 +168,6 @@ export default function Question() {
               setQuestionTitle(event.target.value);
             }}
           />
-          
           <TextField
             variant="outlined"
             margin="normal"
@@ -174,7 +183,14 @@ export default function Question() {
               setQuestion(event.target.value);
             }}
           />
-          <TextField
+
+
+          <RadioGroup className={classes.RadioStyles} aria-label="Correct Answer" name="CorrectAns" value={radioValue} onChange={handleChangeRadio}>
+            
+              
+            <div className={classes.Div}>
+
+              <TextField
             variant="outlined"
             margin="normal"
             required
@@ -189,7 +205,10 @@ export default function Question() {
             }}
             value={firstOption}
             
-          />
+            /><FormControlLabel value='1' control={<Radio />} label="Set As answer" />
+          </div>
+            <div className={classes.Div}>
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -204,8 +223,13 @@ export default function Question() {
               setSecondOption(event.target.value);
             }}
             value={secondOption}
-          />
-          <TextField
+              />
+    
+            <FormControlLabel value='2' control={<Radio />} label="Set As answer" />
+            </div>
+            <div className={classes.Div}>
+
+              <TextField
             variant="outlined"
             margin="normal"
             required
@@ -221,7 +245,11 @@ export default function Question() {
 
             value={thirdOption}
           
-          />
+            />
+              <FormControlLabel value='3' control={<Radio />} label="Set As answer" />
+            </div>
+            <div className={classes.Div}>
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -236,23 +264,12 @@ export default function Question() {
               setForthOption(event.target.value);
             }}
             value={forthOption}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="CorrectAnswer"
-            label="Correct Answer"
-            name="CorrectAnswer"
-            autoComplete="CorrectAnswer"
-            autoFocus
-            onChange={(event) => {
-              setCorrectAnswer(event.target.value);
-            }}
-            value={correctAnswer}
-          />
-          <Typography className={classes.RedTextWarning}>{errMsg}</Typography>
+            />
+              <FormControlLabel value='4' control={<Radio />} label="Set As answer" />
+              </div>
+          </RadioGroup> 
+
+        <Typography className={classes.RedTextWarning}>{errMsg}</Typography>
 
           <Button
             fullWidth

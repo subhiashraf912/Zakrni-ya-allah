@@ -13,7 +13,16 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import BookIcon from "@material-ui/icons/Book";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import * as firebase from "firebase";
+import { withStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
+import { pink } from "@material-ui/core/colors";
+import { orange } from "@material-ui/core/colors";
+import { blue } from "@material-ui/core/colors";
+import { yellow } from "@material-ui/core/colors";
+import Radio from "@material-ui/core/Radio";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,6 +30,55 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
+const GreenRadio = withStyles({
+  root: {
+    color: green[ 400 ],
+    "&$checked": {
+      color: green[ 600 ],
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
+
+const PinkRadio = withStyles({
+  root: {
+    color: pink[ 400 ],
+    "&$checked": {
+      color: pink[ 600 ],
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
+
+const YellowRadio = withStyles({
+  root: {
+    color: yellow[ 600 ],
+    "&$checked": {
+      color: yellow[ 800 ],
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
+
+const BlueRadio = withStyles({
+  root: {
+    color: blue[ 400 ],
+    "&$checked": {
+      color: blue[ 600 ],
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
+
+const OrangeRadio = withStyles({
+  root: {
+    color: orange[ 700 ],
+    "&$checked": {
+      color: orange[ 800 ],
+    },
+  },
+  checked: {},
+})((props) => <Radio {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,24 +111,30 @@ export default function AddCard() {
   let history = useHistory();
 
   const classes = useStyles();
-  useEffect(() => {});
+  useEffect(() => { });
+  const [ selectedValue, setSelectedValue ] = React.useState();
 
-  const [title, setTitle] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [question, setQues] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [ title, setTitle ] = useState("");
+
+  const [ content, setContent ] = useState("");
+  const [ errMsg, setErrMsg ] = useState("");
 
   const handleSubmit = () => {
+    var user = firebase.auth().currentUser;
+    var uid;
+
+    if (user != null) {
+      uid = user.uid;
+    }
     firebase
       .firestore()
-      .collection("posts")
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("MyCards")
       .add({
         title: title,
-        question: question,
-        answer: answer,
-
-        Email: firebase.auth().currentUser.email,
-        uid: firebase.auth().currentUser.uid,
+        content: content,
+        bgColor: selectedValue,
       })
 
       .catch((err) => {
@@ -78,11 +142,18 @@ export default function AddCard() {
       })
 
       .then(() => {
-        history.push("/");
+        history.push("/cards");
       })
       .catch((err) => {
         setErrMsg(err.message);
       });
+  };
+  React.useEffect(() => {
+    // selectedValue has definitely been changed
+    console.log("selectedValue:", selectedValue);
+  }, [ selectedValue ]);
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
   };
 
   return (
@@ -93,11 +164,10 @@ export default function AddCard() {
           {!firebase.auth().currentUser
             ? history.push("/login")
             : console.log()}
-
-          <BookIcon />
+          <AddCircleOutlineIcon />{" "}
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sell your stuff
+          Add your cards!
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -121,27 +191,13 @@ export default function AddCard() {
                 variant="outlined"
                 required
                 fullWidth
-                id="ques"
+                id="content"
                 multiline
-                label="Add your question"
-                name="question"
-                autoComplete="question"
+                label="content"
+                name="content"
+                autoComplete="content"
                 onChange={(e) => {
-                  setQues(e.target.value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="answer"
-                label="answer"
-                name="answer"
-                autoComplete="answer"
-                onChange={(e) => {
-                  setAnswer(e.target.value);
+                  setContent(e.target.value);
                 }}
               />
             </Grid>
@@ -149,7 +205,47 @@ export default function AddCard() {
             <Grid item xs={12}></Grid>
           </Grid>
           <Typography className={classes.RedTextWarning}>{errMsg}</Typography>
-
+          <PinkRadio
+            checked={selectedValue === "pink"}
+            onChange={handleChange}
+            value="#ff669a
+"
+            name="radio-button-demo"
+            inputProps={{ "aria-label": "A" }}
+          />
+          Pink
+          <YellowRadio
+            checked={selectedValue === "yellow"}
+            onChange={handleChange}
+            value="#ffee33"
+            name="radio-button-demo"
+            inputProps={{ "aria-label": "B" }}
+          />
+          Yellow
+          <GreenRadio
+            checked={selectedValue === "green"}
+            onChange={handleChange}
+            value="#76ff03"
+            name="radio-button-demo"
+            inputProps={{ "aria-label": "C" }}
+          />
+          Green
+          <BlueRadio
+            checked={selectedValue === "blue"}
+            onChange={handleChange}
+            value="#33eaff"
+            name="radio-button-demo"
+            inputProps={{ "aria-label": "D" }}
+          />
+          Blue
+          <OrangeRadio
+            checked={selectedValue === "orange"}
+            onChange={handleChange}
+            value="#ffab40"
+            name="radio-button-demo"
+            inputProps={{ "aria-label": "E" }}
+          />
+          Orange
           <Button
             fullWidth
             variant="contained"
@@ -157,7 +253,7 @@ export default function AddCard() {
             className={classes.submit}
             onClick={handleSubmit}
           >
-            Post
+            Add
           </Button>
           <Grid container justify="flex-end"></Grid>
         </form>

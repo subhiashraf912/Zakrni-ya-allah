@@ -6,6 +6,7 @@ import Login from "./components/Login.jsx";
 import SignUp from "./components/SignUp.jsx";
 import AddCard from "./components/AddCard.jsx";
 import Account from "./components/MyAccount.jsx";
+import Cards from "./components/cards.jsx";
 import "./firebase";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -14,7 +15,7 @@ import Quiz from './components/Quiz'
 import Question from "./components/Question";
 import LatestCards from "./components/LatestQuizes";
 import QuizQuestions from "./components/QuizQuestions";
-
+import Answers from './components/answers'
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/answers">
+          <Answers />
         </Route>
         <Route path="/account">
           <Account />
@@ -60,6 +64,9 @@ function App() {
         */}
         <Route path="/signup">
           <SignUp />
+        </Route>
+        <Route path="/cards">
+          <Cards />
         </Route>
       </Switch>
     </Router>
